@@ -6,7 +6,7 @@
 
 This is an assignment project for Visma Lietuva Winter Internship 2021 Front-End Developer cohort. The project is for educational porpuses only.
 
-Project published at https://github.com/JRybelis .
+Project published at https://jrybelis.github.io/toDoList/ .
 
 ## Project features
 - CSS animations;
