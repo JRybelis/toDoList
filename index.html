@@ -3,9 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ToDoApp</title>
+    <link rel="stylesheet" href="./css/main.css">
 </head>
+
 <body>
+    <!-- Page title -->
+    <h1>To-do notetaker</h1>
+
+    <!-- Card list  -->
+    <main></main>
+
+     <!-- <main class="list">
+        <div class="item">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In voluptatum eum ducimus dolor veniam quisquam omnis nulla maxime id dicta!</p>
+            <div class="actions">
+                <div class="btn small deadline">Set deadline</div>
+                <div class="btn small delete">Delete note</div>
+            </div>
+        </div>
+    </main> -->
     
+    <!-- Add new card -->
+    <div class="add-new">+</div>
+
+    <!-- New card form -->
+    <div class="lightbox" data-form="add">
+        <div class="background"></div>
+        <div class="content">
+            <form class="add">
+                <h2 class="title">Add new task</h2>
+                <textarea></textarea>
+                <button class="btn cancel" type="submit">Cancel</button>
+                <button class="btn add right" type="submit">Add</button>
+                <label for="set-deadline"> Date & time due:</label>
+                <input type="datetime-local" id="set-deadline"
+                    name="set-deadline" 
+                    value="2020-12-30T22:30"
+                    min="2020-12-30T22:31" max="2070-12-30T22:30">
+                    <!-- selected date & time placeholder -->
+                    <p>
+                        <script> document.write(new Date().toLocaleTimeString()); </script>
+                    </p>
+            </form>
+        </div>
+    </div>
+    <script src="./js/main.js" type="module"></script>
 </body>
-</html>
+</html> 
