@@ -1,0 +1,33 @@
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #FC9867;
+    color: #fff;
+    line-height: 16px;
+    font-size: 14px;
+    border: none;
+    opacity: 0.9;
+    cursor: pointer;
+}
+    .btn:hover {
+        opacity: 1;
+    }
+    .btn.cancel {
+        background-color: rgb(173, 172, 172);
+        color: #fff;
+    }
+    .btn.add {
+        background-color: #A6E22E;
+        color: #fff;
+    }
+    .btn.delete {
+        background-color: #FF6188;
+        color: #fff;
+    }
+    .btn.small {
+        padding: 5px 10px;
+        line-height: 14px;
+        font-size: 14px;
+        border-radius: 2px;
+    }
