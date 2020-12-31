@@ -1,0 +1,50 @@
+.list {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+    min-height: calc(100vh - 60px);
+    padding: 25px;
+    gap: 25px;
+    place-content: start;
+}
+    .list > .item {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+        .list > .item > .actions {
+            position: absolute;
+            top: -10px;
+            right: 150px;
+            display: none;
+            width: 15%;
+        }
+           .list > .item:hover > .actions {
+                display: inline-block;
+            }
+
+.check {
+    display: inline;
+    position: absolute;
+    top: -6px;
+    right: -120px;
+    padding: 5px 22px 5px 10px;
+    background-color: #FD971F;
+    color: #fff;
+    line-height: 15px;
+    font-size: 14px;
+    border-radius: 2px;
+    opacity: 0.9;
+}
+    .check:hover {
+        opacity: 1;
+    }
+    input.check {
+        width: 16px;
+        height: 16px;
+        top: -2px;
+    }
+    

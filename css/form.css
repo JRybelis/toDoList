@@ -1,0 +1,34 @@
+form {
+    display: none;
+    width: 100%;
+    padding: 20px;
+    background-color: fff;
+    border-radius: 4px;
+    box-shadow: 0 3px 7px #0003;
+}
+    .lightbox[data-form="add"] form.add,
+    .lightbox[data-form="update"] form.update {
+        display: inline-block;
+    }
+
+    form > .title {
+        display: inline-block;
+        width: 100%;
+    }
+    form > textarea {
+        display: inline-block;
+        width: 100%;
+        padding: 10px;
+        font-size: 17px;
+        line-height: 23px;
+        min-height: 89px;
+        max-height: 204px;
+        resize: vertical;
+        border: 1px solid #777;
+    }
+    form > * {
+        float: left;
+    }
+    form > * + * {
+        margin-top: 20px;
+    }
