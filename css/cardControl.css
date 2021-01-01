@@ -47,4 +47,25 @@
         height: 16px;
         top: -2px;
     }
+
+.confirmation {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 180px;
+    max-width: 360px;
+    width: 25%;
+    text-align: center;
+    background-color: #0001;
+    padding: 10px;
+    border-radius: 6px;
+    
+}
+    .confirmation.show {
+        display: block;
+        
+    }
+    
     

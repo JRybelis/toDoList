@@ -86,15 +86,30 @@ class Todo {
 
     addEvents() {
         const items = this.DOM.querySelectorAll('.item');
+        const deletePopUp = document.querySelector('.confirmation');
+        const confirmDelete = document.querySelector('button.confirm');
+        const cancelDelete = document.querySelector('button.revoke');
+        console.log(cancelDelete);
 
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
             const deleteBtn = item.querySelector('.btn.delete.small');
-            // const completeBox = item.querySelector('.check');
+            
 
             deleteBtn.addEventListener('click', () => {
-                this.deleteTask(i);
+                deletePopUp.classList.add('show');    
             })
+
+            cancelDelete.addEventListener ('click', () => {
+                deletePopUp.classList.remove('show');
+            })
+            
+            confirmDelete.addEventListener ('click', () => {
+                this.deleteTask(i);
+                deletePopUp.classList.remove('show'); 
+            })
+
+            // const completeBox = item.querySelector('.check');
             // completeBox.addeventListener('click', () => {
             //     this.completeTask(i);
             // })
