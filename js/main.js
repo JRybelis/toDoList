@@ -2,12 +2,13 @@ import {Todo} from './components/toDo/toDo.js';
 
 const addNewTask = document.querySelector('.add-new');
 const lightbox = document.querySelector('.lightbox');
+const deletePopUp = document.querySelector('.confirmation');
 const formAdd = lightbox.querySelector('form.add');
 const textarea = formAdd.querySelector('textarea');
 const buttonCancel = formAdd.querySelector('button.cancel')
 const buttonAdd = formAdd.querySelector('button.add');
 const setDeadline = formAdd.querySelector('setDeadline');
-                                                            // gal reikia dar const delete mygtukui?? ?
+      
 
 // init objects
 const todo = new Todo({
@@ -21,9 +22,11 @@ addNewTask.addEventListener('click', () => {
     lightbox.classList.add('show');
 })
 
+
 addEventListener('keyup', ({ key }) => {
     if (key === 'Escape') {
-        lightbox.classList.remove('show');
+        lightbox.classList.remove('show'),
+        deletePopUp.classList.remove('show');
     }
 })
 
