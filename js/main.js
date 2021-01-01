@@ -2,7 +2,7 @@ import {Todo} from './components/toDo/toDo.js';
 
 const addNewTask = document.querySelector('.add-new');
 const lightbox = document.querySelector('.lightbox');
-const formAdd = lightbox.querySelector('form.add');
+const formAdd = lightbox.querySelector('.add');
 const textarea = formAdd.querySelector('textarea');
 const buttonCancel = formAdd.querySelector('button.cancel')
 const buttonAdd = formAdd.querySelector('button.add');
@@ -38,3 +38,5 @@ buttonAdd.addEventListener('click', e => {
     textarea.value = '';
     lightbox.classList.remove('show');
 })
+
+// button delete 2ia aprasyt

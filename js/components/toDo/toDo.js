@@ -8,10 +8,11 @@ class Todo {
         this.lastCreatedID = 0;
     }
     init() {
+        this.taskList = [];
         if (!this.isValidSelector()) {
             return false;
         }
-        // this.updateStyle();
+        
         this.getInfoFromSessionStorage();
         this.renderList();
 
@@ -31,12 +32,7 @@ class Todo {
         return true;
     }
 
-    // updateStyle() {
-    //     if (!this.DOM.classlist.contains('list')) {
-    //         this.DOM.classlist.add('list')
-    //     }
-    // }
-
+   
     // Create
     addTask(text) {
         const task = {
@@ -68,8 +64,15 @@ class Todo {
     // Read
     renderList() {
         let HTML = '';
+        let tasks = [];
+        this.taskList = tasks;
+        console.log(this.tasklist);
         for (let item of this.taskList) {
+            if (this.tasklist.length === 0) {
+                return
+            }
             HTML += this.generateItem(item);
+            
         }
         this.DOM.innerHTML = HTML;
         this.addEvents();
@@ -94,7 +97,7 @@ class Todo {
             //     this.deleteTask(i);
             // })
             // completeBox.addeventListener('click', () => {
-                // this.completeTask(i);
+            //     this.completeTask(i);
             // })
         }
     }
