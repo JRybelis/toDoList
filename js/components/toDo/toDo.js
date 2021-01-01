@@ -8,7 +8,6 @@ class Todo {
         this.lastCreatedID = 0;
     }
     init() {
-        // this.taskList = [];
         if (!this.isValidSelector()) {
             return false;
         }
@@ -53,15 +52,20 @@ class Todo {
     generateItem(task) {
         return `
         <div class="item">
-                    <p>${task.text}</p>
-                    <div class="actions">
-                        <div class="btn delete small">Delete note</div>
-                        <span>
-                            <label class="check" for="check"> Complete task </label>
-                            <input class="check" type="checkbox" id="complete">
-                        </span>
-                    </div>
+            <p>${task.text}</p>
+            <div class="actions">
+                <div class="btn delete small">Delete note</div>
+                <span>
+                    <label class="check" for="check"> Complete task </label>
+                    <input class="check" type="checkbox" id="complete">
+                </span>
+                <div class="confirmation">
+                    <p>Are you sure you wish to permanently delete this task?</p>
+                    <button class="btn delete confirm">Yes</button>
+                    <button class="btn cancel revoke" type="submit">No</button>
                 </div>
+                </div>
+        </div>
     `;
     }
 
@@ -86,29 +90,29 @@ class Todo {
 
     addEvents() {
         const items = this.DOM.querySelectorAll('.item');
-        const deletePopUp = document.querySelector('.confirmation');
-        const confirmDelete = document.querySelector('button.confirm');
-        const cancelDelete = document.querySelector('button.revoke');
-        console.log(cancelDelete);
-
+        
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
+            const deletePopUp = item.querySelector('.confirmation');
             const deleteBtn = item.querySelector('.btn.delete.small');
-            
+            const confirmDelete = deletePopUp.querySelector('.btn.delete.confirm');
+            const cancelDelete = deletePopUp.querySelector('.btn.cancel.revoke');
+            console.log(cancelDelete);
+                        
+            confirmDelete.addEventListener ('click', () => {
+                this.deleteTask(i);
+                deletePopUp.classList.remove('show'); 
+            })
 
             deleteBtn.addEventListener('click', () => {
-                deletePopUp.classList.add('show');    
+                deletePopUp.classList.add('show');   
+                // this.deleteTask(i);   
             })
 
             cancelDelete.addEventListener ('click', () => {
                 deletePopUp.classList.remove('show');
             })
             
-            confirmDelete.addEventListener ('click', () => {
-                this.deleteTask(i);
-                deletePopUp.classList.remove('show'); 
-            })
-
             // const completeBox = item.querySelector('.check');
             // completeBox.addeventListener('click', () => {
             //     this.completeTask(i);
