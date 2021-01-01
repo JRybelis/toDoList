@@ -42,7 +42,6 @@ class Todo {
         }
 
         this.taskList.push(task);
-        console.log(this.taskList);
         this.renderList();
 
         sessionStorage.setItem(task.id, JSON.stringify(task));
@@ -82,6 +81,7 @@ class Todo {
         sessionStorage.removeItem(this.taskList[taskIndex].id);
         this.taskList = this.taskList.filter((item, index) => index !== taskIndex);
         this.renderList();
+        
     }
 
     addEvents() {
@@ -92,9 +92,9 @@ class Todo {
             const deleteBtn = item.querySelector('.btn.delete.small');
             // const completeBox = item.querySelector('.check');
 
-            // deleteBtn.addeventListener('click', () => {
-            //     this.deleteTask(i);
-            // })
+            deleteBtn.addEventListener('click', () => {
+                this.deleteTask(i);
+            })
             // completeBox.addeventListener('click', () => {
             //     this.completeTask(i);
             // })
