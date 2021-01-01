@@ -8,7 +8,7 @@ class Todo {
         this.lastCreatedID = 0;
     }
     init() {
-        this.taskList = [];
+        // this.taskList = [];
         if (!this.isValidSelector()) {
             return false;
         }
@@ -42,6 +42,7 @@ class Todo {
         }
 
         this.taskList.push(task);
+        console.log(this.taskList);
         this.renderList();
 
         sessionStorage.setItem(task.id, JSON.stringify(task));
@@ -51,26 +52,24 @@ class Todo {
     }
 
     generateItem(task) {
-        return `<div class="item">
+        return `
+        <div class="item">
                     <p>${task.text}</p>
                     <div class="actions">
-                    <div class="btn small delete">Delete note</div>
-                    <span>
-                        <label class="check" for="check"> Complete task </label>
-                        <input class="check" type="checkbox" id="complete">
-                    </span>`;
+                        <div class="btn delete small">Delete note</div>
+                        <span>
+                            <label class="check" for="check"> Complete task </label>
+                            <input class="check" type="checkbox" id="complete">
+                        </span>
+                    </div>
+                </div>
+    `;
     }
 
     // Read
     renderList() {
         let HTML = '';
-        let tasks = [];
-        this.taskList = tasks;
-        console.log(this.tasklist);
         for (let item of this.taskList) {
-            if (this.tasklist.length === 0) {
-                return
-            }
             HTML += this.generateItem(item);
             
         }
@@ -88,10 +87,10 @@ class Todo {
     addEvents() {
         const items = this.DOM.querySelectorAll('.item');
 
-        for (let i=0; i < items.length; i++) {
+        for (let i = 0; i < items.length; i++) {
             const item = items[i];
-            const deleteBtn = item.querySelector('.btn.delete');
-            const completeBox = item.querySelectorAll('.check');
+            const deleteBtn = item.querySelector('.btn.delete.small');
+            // const completeBox = item.querySelector('.check');
 
             // deleteBtn.addeventListener('click', () => {
             //     this.deleteTask(i);

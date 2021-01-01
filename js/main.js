@@ -2,7 +2,7 @@ import {Todo} from './components/toDo/toDo.js';
 
 const addNewTask = document.querySelector('.add-new');
 const lightbox = document.querySelector('.lightbox');
-const formAdd = lightbox.querySelector('.add');
+const formAdd = lightbox.querySelector('form.add');
 const textarea = formAdd.querySelector('textarea');
 const buttonCancel = formAdd.querySelector('button.cancel')
 const buttonAdd = formAdd.querySelector('button.add');
@@ -11,7 +11,7 @@ const setDeadline = formAdd.querySelector('setDeadline');
 
 // init objects
 const todo = new Todo({
-    selector: 'main'
+    selector: '.list'
 });
 todo.init();
 
