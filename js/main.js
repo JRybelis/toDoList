@@ -37,6 +37,10 @@ buttonCancel.addEventListener('click', e => {
 
 buttonAdd.addEventListener('click', e => {
     e.preventDefault();
+    if (textarea.textLength === 0) {
+        alert ('The note cannot be created empty.');
+        return false;
+    } 
     todo.addTask(textarea.value);
     textarea.value = '';
     lightbox.classList.remove('show');
