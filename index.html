@@ -32,6 +32,13 @@
         <button class="btn delete confirm">Yes</button>
         <button class="btn cancel revoke" type="submit">No</button>
     </div> -->
+
+    <!-- selected date & time placeholder -->
+    <!-- <p class="deadlineSelection"> -->
+        <!-- <script> document.write(new Date().toLocaleTimeString()); </script> -->
+        <!-- document.getElementById("demo").innerHTML = timeLeft; -->
+    <!-- </p> -->
+
     <!-- Add new card -->
     <div class="add-new">+</div>
 
@@ -42,18 +49,16 @@
             <form class="add">
                 <h2 class="title">Add new task</h2>
                 <textarea required maxlength="160"></textarea>
-                <button class="btn deadline" type="submit">Set deadline</button>
+                <div class="calendarClock">
+                    <label for="setDeadline"> Date & time due:</label>
+                    <input type="datetime-local" id="setDeadline"
+                        name="setDeadline" 
+                        value=""
+                        position="bottom"
+                        min="2021-01-04T09:01" max="2070-12-30T22:30">
+                </div>
                 <button class="btn cancel" type="submit">Cancel</button>
-                <button class="btn add right" type="submit">Add</button>
-                <label for="setDeadline"> Date & time due:</label>
-                <input type="datetime-local" id="setDeadline"
-                    name="setDeadline" 
-                    value="2020-12-30T22:30"
-                    min="2020-12-30T22:31" max="2070-12-30T22:30">
-                    <!-- selected date & time placeholder -->
-                    <p>
-                        <script> document.write(new Date().toLocaleTimeString()); </script>
-                    </p>
+                <button class="btn add" type="submit">Add</button>                    
             </form>
         </div>
     </div>

@@ -9,10 +9,6 @@ body {
     background-color: #f9f9f95d;
 }
 
-.right {
-    float: right;
-}
-
 h1 {
     display: inline-block;
     position: fixed;

@@ -1,4 +1,5 @@
 import { Ajax } from '../ajax/ajax.js' ;
+import { setDeadline } from '../dateTime/dateTime.js';
 
 class Todo {
     constructor(params) {
@@ -53,6 +54,7 @@ class Todo {
         return `
         <div class="item">
             <p>${task.text}</p>
+            <p class="deadlineSelection"></p>
             <div class="actions">
                 <div class="btn delete small">Delete note</div>
                 <span>
@@ -97,7 +99,6 @@ class Todo {
             const deleteBtn = item.querySelector('.btn.delete.small');
             const confirmDelete = deletePopUp.querySelector('.btn.delete.confirm');
             const cancelDelete = deletePopUp.querySelector('.btn.cancel.revoke');
-            console.log(cancelDelete);
                         
             confirmDelete.addEventListener ('click', () => {
                 this.deleteTask(i);
