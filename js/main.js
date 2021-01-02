@@ -1,4 +1,4 @@
-import { setDeadline } from './components/dateTime/dateTime.js';
+// import { setDeadline } from './components/dateTime/dateTime.js';
 import {Todo} from './components/toDo/toDo.js';
 
 
@@ -9,8 +9,8 @@ const formAdd = lightbox.querySelector('form.add');
 const textarea = formAdd.querySelector('textarea');
 const buttonCancel = formAdd.querySelector('button.cancel')
 const buttonAdd = formAdd.querySelector('button.add');
-// const setDeadline = formAdd.querySelector('setDeadline');
-      
+
+     
 
 // init objects
 const todo = new Todo({
@@ -39,13 +39,16 @@ buttonCancel.addEventListener('click', e => {
 
 buttonAdd.addEventListener('click', e => {
     e.preventDefault();
+    const setDeadline = document.querySelector('#setDeadline');
     if (textarea.textLength === 0) {
         alert ('The note cannot be created empty.');
         return false;
     } 
+    
     todo.addTask(textarea.value);
     textarea.value = '';
+    setDeadline.value = '';
     lightbox.classList.remove('show');
 })
 
-// button delete 2ia aprasyt
+

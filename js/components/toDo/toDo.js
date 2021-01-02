@@ -1,5 +1,5 @@
 import { Ajax } from '../ajax/ajax.js' ;
-import { setDeadline } from '../dateTime/dateTime.js';
+
 
 class Todo {
     constructor(params) {
@@ -7,6 +7,7 @@ class Todo {
         this.DOM = null;
         this.taskList = [];
         this.lastCreatedID = 0;
+
     }
     init() {
         if (!this.isValidSelector()) {
@@ -38,6 +39,7 @@ class Todo {
         const task = {
             id: ++this.lastCreatedID,
             text: text,
+            deadline: this.deadline(),
             isCompleted: false
         }
 
@@ -51,10 +53,12 @@ class Todo {
     }
 
     generateItem(task) {
+        let value = this.deadline();
+        console.log(this.lastCreatedID);
         return `
         <div class="item">
             <p>${task.text}</p>
-            <p class="deadlineSelection"></p>
+            <p class="deadlineSelection">${task.deadline}</p>
             <div class="actions">
                 <div class="btn delete small">Delete note</div>
                 <span>
@@ -76,7 +80,6 @@ class Todo {
         let HTML = '';
         for (let item of this.taskList) {
             HTML += this.generateItem(item);
-            
         }
         this.DOM.innerHTML = HTML;
         this.addEvents();
@@ -107,7 +110,6 @@ class Todo {
 
             deleteBtn.addEventListener('click', () => {
                 deletePopUp.classList.add('show');   
-                // this.deleteTask(i);   
             })
 
             cancelDelete.addEventListener ('click', () => {
@@ -137,8 +139,29 @@ class Todo {
     }
     importDataFromServer(data) {
         const serverInfo = JSON.parse(data);
-        console.log(serverInfo);
     }
+
+
+    deadline (){
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth()+1;
+        let day = today.getDate();
+        let hour = today.getHours();
+        let minute = today.getMinutes();
+
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+        hour = hour < 10 ? '0' + hour : hour;
+        minute = minute < 10 ? '0' + minute : minute;
+        today = year + ' - ' + month + ' - ' + day + ' ' + hour + ':' + minute;
+
+        const setDeadline = document.querySelector('#setDeadline');
+        setDeadline.setAttributeNS('setDeadline', 'min', today);
+
+        return setDeadline.value;
+    }
+
 }
 
 
