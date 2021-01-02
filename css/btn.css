@@ -9,6 +9,7 @@
     border: none;
     opacity: 0.9;
     cursor: pointer;
+    margin-right: 5px;
 }
     .btn:hover {
         opacity: 1;
@@ -16,14 +17,18 @@
     .btn.cancel {
         background-color: rgb(173, 172, 172);
         color: #fff;
+        width: 140px;
     }
     .btn.add {
         background-color: #A6E22E;
         color: #fff;
+        width: 140px;
+        
     }
     .btn.delete {
         background-color: #FF6188;
         color: #fff;
+        width: 140px;
     }
     .btn.small {
         padding: 5px 10px;
