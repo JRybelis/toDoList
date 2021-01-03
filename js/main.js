@@ -39,7 +39,7 @@ buttonCancel.addEventListener('click', e => {
 
 buttonAdd.addEventListener('click', e => {
     e.preventDefault();
-    const setDeadline = document.querySelector('#setDeadline');
+    let setDeadline = document.querySelector('#setDeadline');
     if (textarea.textLength === 0) {
         alert ('The note cannot be created empty.');
         return false;
@@ -47,8 +47,8 @@ buttonAdd.addEventListener('click', e => {
     
     todo.addTask(textarea.value);
     textarea.value = '';
-    setDeadline.value = '';
     lightbox.classList.remove('show');
+    setDeadline.value = '';
 })
 
 

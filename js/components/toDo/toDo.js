@@ -7,8 +7,7 @@ class Todo {
         this.DOM = null;
         this.taskList = [];
         this.lastCreatedID = 0;
-        this.DeadlineDOM = null;
-
+        this.DeadlineDOM = null; // šito ar reikia? 
     }
     init() {
         if (!this.isValidSelector()) {
@@ -41,6 +40,12 @@ class Todo {
             id: ++this.lastCreatedID,
             text: text,
             deadline: this.deadline(),
+            time: {
+                days: this.deadline().timeLeftDays,
+                hours: this.deadline().timeLeftHours,
+                minutes: this.deadline().timeLeftMinutes,
+                seconds: this.deadline().timeLeftSeconds
+            },
             isCompleted: false
         }
 
@@ -54,31 +59,58 @@ class Todo {
     }
 
     generateItem(task) {
-        let value = this.deadline();
         console.log(this.lastCreatedID);
-        return `
-        <div class="item">
-            <p>${task.text}</p>
-            <span>
-            <p class="deadlineSelection">${task.value[timeLeftDays]} days </p>
-            <p class="deadlineSelection">${task.value[timeLeftHours]} hours </p>
-            <p class="deadlineSelection">${task.value[timeLeftMinutes]} minutes </p>
-            <p class="deadlineSelection">${task.value[timeLeftSeconds]} seconds left</p>
-            </span>
-            <div class="actions">
-                <div class="btn delete small">Delete note</div>
-                <span>
-                    <label class="check" for="check"> Complete task </label>
-                    <input class="check" type="checkbox" id="complete">
-                </span>
-                <div class="confirmation">
-                    <p>Are you sure you wish to permanently delete this task?</p>
-                    <button class="btn delete confirm">Yes</button>
-                    <button class="btn cancel revoke" type="submit">No</button>
+        console.log(setDeadline.value);
+        if (setDeadline.value !== '') {
+            do {
+                console.log('No deadline supplied for this task.');
+                return `
+                <div class="item">
+                    <p>${task.text}</p>
+                    <span>
+                        <p class="deadlineSelection">${task.time.days} days </p>
+                        <p class="deadlineSelection">${task.time.hours} hours </p>
+                        <p class="deadlineSelection">${task.time.minutes} minutes </p>
+                        <p class="deadlineSelection">${task.time.seconds} seconds </p>
+                    </span>
+                    <div class="actions">
+                        <div class="btn delete small">Delete note</div>
+                        <span>
+                            <label class="check" for="check"> Complete task </label>
+                            <input class="check" type="checkbox" id="complete">
+                        </span>
+                        <div class="confirmation">
+                            <p>Are you sure you wish to permanently delete this task?</p>
+                            <button class="btn delete confirm">Yes</button>
+                            <button class="btn cancel revoke" type="submit">No</button>
+                        </div>
+                        </div>
                 </div>
+                `; 
+            } while (setDeadline.value !== '');
+        }
+         else {
+            if (setDeadline.value === '') {
+                return `
+                <div class="item">
+                    <p>${task.text}</p>
+                    <p class="deadlineSelection"> This task has no deadline. </p>
+                    <div class="actions">
+                        <div class="btn delete small">Delete note</div>
+                        <span>
+                            <label class="check" for="check"> Complete task </label>
+                            <input class="check" type="checkbox" id="complete">
+                        </span>
+                        <div class="confirmation">
+                            <p>Are you sure you wish to permanently delete this task?</p>
+                            <button class="btn delete confirm">Yes</button>
+                            <button class="btn cancel revoke" type="submit">No</button>
+                        </div>
+                        </div>
                 </div>
-        </div>
-    `; //days ${task.timeLeftHours} hours ${task.timeLeftMinutes} minutes ${task.timeLeftSeconds} seconds
+                `; }
+        }
+        
     }
 
     // Read
@@ -167,9 +199,9 @@ class Todo {
 
         
         let setDeadlineMs = Date.parse(setDeadline.value);
-        if (setDeadline.value === '') {
-            console.log('No deadline supplied for this task.');
-        }
+        // if (setDeadline.value === '') {
+        //     console.log('No deadline supplied for this task.');
+        // }
 
         let todayMs = Date.parse(today);
         let timeLeftS = (setDeadlineMs - todayMs) / 1000; 
