@@ -7,6 +7,7 @@ class Todo {
         this.DOM = null;
         this.taskList = [];
         this.lastCreatedID = 0;
+        // this.countTimeDiff();
 
     }
     init() {
@@ -154,15 +155,46 @@ class Todo {
         day = day < 10 ? '0' + day : day;
         hour = hour < 10 ? '0' + hour : hour;
         minute = minute < 10 ? '0' + minute : minute;
-        today = year + ' - ' + month + ' - ' + day + ' ' + hour + ':' + minute;
+        today = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
 
-        const setDeadline = document.querySelector('#setDeadline');
+        let setDeadline = document.querySelector('#setDeadline');
         setDeadline.setAttributeNS('setDeadline', 'min', today);
 
-        return setDeadline.value;
+        
+        let setDeadlineMs = Date.parse(setDeadline.value);
+        if (setDeadline.value === '') {
+            console.log('No deadline supplied for this task.');
+        }
+
+        let todayMs = Date.parse(today);
+        let timeLeftS = (setDeadlineMs - todayMs) / 1000; 
+        
+        const timeLeftDays = Math.floor(timeLeftS / 60 / 60 / 24);
+        timeLeftS -= timeLeftDays * 60 * 60 * 24;
+
+        const timeLeftHours = Math.floor(timeLeftS /60 / 60);
+        timeLeftS -= timeLeftHours * 60 * 60;
+
+        const timeLeftMinutes = Math.floor(timeLeftS / 60);
+
+        const timeLeftSeconds = Math.floor(timeLeftS - timeLeftMinutes * 60);
+        
+        return setDeadline.value,
+        {
+            timeLeftDays: timeLeftDays < 10 ? '0' + timeLeftDays : timeLeftDays,
+            timeLeftHours: timeLeftHours < 10 ? '0' + timeLeftHours : timeLeftHours,
+            timeLeftMinutes: timeLeftMinutes < 10 ? '0' + timeLeftMinutes : timeLeftMinutes,
+            timeLeftSeconds: timeLeftSeconds < 10 ? '0' + timeLeftSeconds : timeLeftSeconds,
+        }
+        
     }
 
+    // countTimeDiff() {
+        
+        // return countDown;
+             
+    // }
+    
 }
-
 
 export { Todo };
