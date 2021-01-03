@@ -1,5 +1,5 @@
 import { Ajax } from '../ajax/ajax.js' ;
-import { setDeadline } from '../dateTime/dateTime.js';
+
 
 class Todo {
     constructor(params) {
@@ -7,6 +7,8 @@ class Todo {
         this.DOM = null;
         this.taskList = [];
         this.lastCreatedID = 0;
+        this.DeadlineDOM = null;
+
     }
     init() {
         if (!this.isValidSelector()) {
@@ -38,6 +40,7 @@ class Todo {
         const task = {
             id: ++this.lastCreatedID,
             text: text,
+            deadline: this.deadline(),
             isCompleted: false
         }
 
@@ -51,10 +54,17 @@ class Todo {
     }
 
     generateItem(task) {
+        let value = this.deadline();
+        console.log(this.lastCreatedID);
         return `
         <div class="item">
             <p>${task.text}</p>
-            <p class="deadlineSelection"></p>
+            <span>
+            <p class="deadlineSelection">${task.value[timeLeftDays]} days </p>
+            <p class="deadlineSelection">${task.value[timeLeftHours]} hours </p>
+            <p class="deadlineSelection">${task.value[timeLeftMinutes]} minutes </p>
+            <p class="deadlineSelection">${task.value[timeLeftSeconds]} seconds left</p>
+            </span>
             <div class="actions">
                 <div class="btn delete small">Delete note</div>
                 <span>
@@ -68,7 +78,7 @@ class Todo {
                 </div>
                 </div>
         </div>
-    `;
+    `; //days ${task.timeLeftHours} hours ${task.timeLeftMinutes} minutes ${task.timeLeftSeconds} seconds
     }
 
     // Read
@@ -76,7 +86,6 @@ class Todo {
         let HTML = '';
         for (let item of this.taskList) {
             HTML += this.generateItem(item);
-            
         }
         this.DOM.innerHTML = HTML;
         this.addEvents();
@@ -107,7 +116,6 @@ class Todo {
 
             deleteBtn.addEventListener('click', () => {
                 deletePopUp.classList.add('show');   
-                // this.deleteTask(i);   
             })
 
             cancelDelete.addEventListener ('click', () => {
@@ -137,9 +145,120 @@ class Todo {
     }
     importDataFromServer(data) {
         const serverInfo = JSON.parse(data);
-        console.log(serverInfo);
     }
-}
 
+
+    deadline (){
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth()+1;
+        let day = today.getDate();
+        let hour = today.getHours();
+        let minute = today.getMinutes();
+
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+        hour = hour < 10 ? '0' + hour : hour;
+        minute = minute < 10 ? '0' + minute : minute;
+        today = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
+
+        let setDeadline = document.querySelector('#setDeadline');
+        setDeadline.setAttributeNS('setDeadline', 'min', today);
+
+        
+        let setDeadlineMs = Date.parse(setDeadline.value);
+        if (setDeadline.value === '') {
+            console.log('No deadline supplied for this task.');
+        }
+
+        let todayMs = Date.parse(today);
+        let timeLeftS = (setDeadlineMs - todayMs) / 1000; 
+        
+        let timeLeftDays = Math.floor(timeLeftS / 60 / 60 / 24);
+        timeLeftS -= timeLeftDays * 60 * 60 * 24;
+
+        let timeLeftHours = Math.floor(timeLeftS /60 / 60);
+        timeLeftS -= timeLeftHours * 60 * 60;
+
+        let timeLeftMinutes = Math.floor(timeLeftS / 60);
+
+        let timeLeftSeconds = Math.floor(timeLeftS - timeLeftMinutes * 60);
+        
+        
+        // timeLeftDays = timeLeftDays < 10 ? '0' + timeLeftDays : timeLeftDays;
+        // timeLeftHours = timeLeftHours < 10 ? '0' + timeLeftHours : timeLeftHours;
+        // timeLeftMinutes = timeLeftMinutes < 10 ? '0' + timeLeftMinutes : timeLeftMinutes;
+        // timeLeftSeconds = timeLeftSeconds < 10 ? '0' + timeLeftSeconds : timeLeftSeconds;
+
+        
+        // return setDeadline.value; -> original static one
+
+        return {
+        timeLeftDays: timeLeftDays < 10 ? '0' + timeLeftDays : timeLeftDays,
+        timeLeftHours: timeLeftHours < 10 ? '0' + timeLeftHours : timeLeftHours,
+        timeLeftMinutes: timeLeftMinutes < 10 ? '0' + timeLeftMinutes : timeLeftMinutes,
+        timeLeftSeconds: timeLeftSeconds < 10 ? '0' + timeLeftSeconds : timeLeftSeconds,
+        }
+
+    }
+
+    renderDeadline (selector) {
+        if (typeof selector !== 'string') {
+            console.error ('Error: selector must be string type.');
+            return false;
+        }
+        if (selector == '') {
+            console.error ('Error: selector may not be an empty string');
+            return false;
+        }
+        const DeadlineDOM = document.querySelector(selector); // cia reikes nukreipti i <p> !!!!!!
+        if (!DeadlineDOM) {
+            console.error ('Error: the place for countdown timer HTML generation was not found.');
+            return false;
+        }
+    
+        const remainingTime = Todo.deadline(); // path reik patikrint
+        console.log(remainingTime);
+
+        const HTMLCounter = 
+            `<div class="time-box">
+                <div class="time">${remainingTime.timeLeftDays}</div>
+                <span>Days</span>
+            </div>
+            <div class="time-box">
+                <div class="time">${remainingTime.timeLeftHours}</div>
+                <span>Hours</span>
+            </div>
+            <div class="time-box">
+                <div class="time">${remainingTime.timeLeftMinutes}</div>
+                <span>Minutes</span>
+            </div>
+            <div class="time-box">
+                <div class="time">${remainingTime.timeLeftSeconds}</div>
+                <span>Seconds</span>
+            </div>`;
+            
+        DeadlineDOM.innerHTML = HTMLCounter;
+        const countdownDOM = DeadlineDOM.querySelectorAll('.time');
+        let timePassed = 0;
+
+        setInterval(() => {
+            const time = this.renderDeadline(); // gal sitos eilutes reikia
+            countdownDOM[0].innerText = remainingTime.timeLeftDays;
+            countdownDOM[1].innerText = remainingTime.timeLeftHours;
+            countdownDOM[2].innerText = remainingTime.timeLeftMinutes;
+            countdownDOM[3].innerText = remainingTime.timeLeftSeconds;
+        }, 1000);
+        
+        return true;
+        
+        
+    }
+
+        
+        
+    
+   
+}
 
 export { Todo };

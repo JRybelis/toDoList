@@ -1,26 +1,23 @@
-// new Date().toLocaleDateString()
+// import { Todo } from '../toDo/toDo.js';
 
+// function renderDeadline (selector) {
+//     if (typeof selector !== 'string') {
+//         console.error ('Error: selector must be string type.');
+//         return false;
+//     }
+//     if (selector == '') {
+//         console.error ('Error: selector may not be an empty string');
+//         return false;
+//     }
+//     const DeadlineDOM = document.querySelector(selector);
+//     if (!DeadlineDOM) {
+//         console.error ('Error: the place for countdown timer HTML generation was not found.');
+//         return false;
+//     }
 
-let today = new Date();
-let year = today.getFullYear();
-let month = today.getMonth()+1;
-let day = today.getDate();
-let hour = today.getHours();
-let minute = today.getMinutes();
+//     const remainingTime = Todo.deadline();
+//     console.log(remainingTime);
 
-month = month < 10 ? '0' + month : month;   
-day = day < 10 ? '0' + day : day;
-hour = hour < 10 ? '0' + hour : hour;
-minute = minute < 10 ? '0' + minute : minute;
-today = year + ' - ' + month + ' - ' + day + ' ' + hour + ":" + minute;
+// }
 
-const setDeadline = document.querySelector('#setDeadline');
-setDeadline.setAttributeNS('setDeadline', 'min', today);    
-setDeadline.addEventListener('change', (e) => {
-    let deadlineSelection = document.querySelector('.deadlineSelection');
-    deadlineSelection.textContent = e.target.value;
-    console.log(deadlineSelection);
-})
-
-export {setDeadline};
-
+// export {renderDeadline}; 
