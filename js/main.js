@@ -1,6 +1,5 @@
-// import { setDeadline } from './components/dateTime/dateTime.js';
 import {Todo} from './components/toDo/toDo.js';
-import { renderDeadline } from './components/dateTime/dateTime.js';
+// import { renderDeadline } from './components/dateTime/dateTime.js';
 
 
 const addNewTask = document.querySelector('.add-new');

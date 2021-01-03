@@ -7,7 +7,7 @@ class Todo {
         this.DOM = null;
         this.taskList = [];
         this.lastCreatedID = 0;
-        // this.countTimeDiff();
+        this.DeadlineDOM = null;
 
     }
     init() {
@@ -59,7 +59,12 @@ class Todo {
         return `
         <div class="item">
             <p>${task.text}</p>
-            <p class="deadlineSelection">${task.deadline}</p>
+            <span>
+            <p class="deadlineSelection">${task.value[timeLeftDays]} days </p>
+            <p class="deadlineSelection">${task.value[timeLeftHours]} hours </p>
+            <p class="deadlineSelection">${task.value[timeLeftMinutes]} minutes </p>
+            <p class="deadlineSelection">${task.value[timeLeftSeconds]} seconds left</p>
+            </span>
             <div class="actions">
                 <div class="btn delete small">Delete note</div>
                 <span>
@@ -73,7 +78,7 @@ class Todo {
                 </div>
                 </div>
         </div>
-    `;
+    `; //days ${task.timeLeftHours} hours ${task.timeLeftMinutes} minutes ${task.timeLeftSeconds} seconds
     }
 
     // Read
@@ -169,32 +174,91 @@ class Todo {
         let todayMs = Date.parse(today);
         let timeLeftS = (setDeadlineMs - todayMs) / 1000; 
         
-        const timeLeftDays = Math.floor(timeLeftS / 60 / 60 / 24);
+        let timeLeftDays = Math.floor(timeLeftS / 60 / 60 / 24);
         timeLeftS -= timeLeftDays * 60 * 60 * 24;
 
-        const timeLeftHours = Math.floor(timeLeftS /60 / 60);
+        let timeLeftHours = Math.floor(timeLeftS /60 / 60);
         timeLeftS -= timeLeftHours * 60 * 60;
 
-        const timeLeftMinutes = Math.floor(timeLeftS / 60);
+        let timeLeftMinutes = Math.floor(timeLeftS / 60);
 
-        const timeLeftSeconds = Math.floor(timeLeftS - timeLeftMinutes * 60);
+        let timeLeftSeconds = Math.floor(timeLeftS - timeLeftMinutes * 60);
         
-        return setDeadline.value,
-        {
-            timeLeftDays: timeLeftDays < 10 ? '0' + timeLeftDays : timeLeftDays,
-            timeLeftHours: timeLeftHours < 10 ? '0' + timeLeftHours : timeLeftHours,
-            timeLeftMinutes: timeLeftMinutes < 10 ? '0' + timeLeftMinutes : timeLeftMinutes,
-            timeLeftSeconds: timeLeftSeconds < 10 ? '0' + timeLeftSeconds : timeLeftSeconds,
+        
+        // timeLeftDays = timeLeftDays < 10 ? '0' + timeLeftDays : timeLeftDays;
+        // timeLeftHours = timeLeftHours < 10 ? '0' + timeLeftHours : timeLeftHours;
+        // timeLeftMinutes = timeLeftMinutes < 10 ? '0' + timeLeftMinutes : timeLeftMinutes;
+        // timeLeftSeconds = timeLeftSeconds < 10 ? '0' + timeLeftSeconds : timeLeftSeconds;
+
+        
+        // return setDeadline.value; -> original static one
+
+        return {
+        timeLeftDays: timeLeftDays < 10 ? '0' + timeLeftDays : timeLeftDays,
+        timeLeftHours: timeLeftHours < 10 ? '0' + timeLeftHours : timeLeftHours,
+        timeLeftMinutes: timeLeftMinutes < 10 ? '0' + timeLeftMinutes : timeLeftMinutes,
+        timeLeftSeconds: timeLeftSeconds < 10 ? '0' + timeLeftSeconds : timeLeftSeconds,
         }
+
+    }
+
+    renderDeadline (selector) {
+        if (typeof selector !== 'string') {
+            console.error ('Error: selector must be string type.');
+            return false;
+        }
+        if (selector == '') {
+            console.error ('Error: selector may not be an empty string');
+            return false;
+        }
+        const DeadlineDOM = document.querySelector(selector); // cia reikes nukreipti i <p> !!!!!!
+        if (!DeadlineDOM) {
+            console.error ('Error: the place for countdown timer HTML generation was not found.');
+            return false;
+        }
+    
+        const remainingTime = Todo.deadline(); // path reik patikrint
+        console.log(remainingTime);
+
+        const HTMLCounter = 
+            `<div class="time-box">
+                <div class="time">${remainingTime.timeLeftDays}</div>
+                <span>Days</span>
+            </div>
+            <div class="time-box">
+                <div class="time">${remainingTime.timeLeftHours}</div>
+                <span>Hours</span>
+            </div>
+            <div class="time-box">
+                <div class="time">${remainingTime.timeLeftMinutes}</div>
+                <span>Minutes</span>
+            </div>
+            <div class="time-box">
+                <div class="time">${remainingTime.timeLeftSeconds}</div>
+                <span>Seconds</span>
+            </div>`;
+            
+        DeadlineDOM.innerHTML = HTMLCounter;
+        const countdownDOM = DeadlineDOM.querySelectorAll('.time');
+        let timePassed = 0;
+
+        setInterval(() => {
+            const time = this.renderDeadline(); // gal sitos eilutes reikia
+            countdownDOM[0].innerText = remainingTime.timeLeftDays;
+            countdownDOM[1].innerText = remainingTime.timeLeftHours;
+            countdownDOM[2].innerText = remainingTime.timeLeftMinutes;
+            countdownDOM[3].innerText = remainingTime.timeLeftSeconds;
+        }, 1000);
+        
+        return true;
+        
         
     }
 
-    // countTimeDiff() {
         
-        // return countDown;
-             
-    // }
+        
     
+   
 }
 
 export { Todo };
