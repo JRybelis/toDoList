@@ -71,6 +71,12 @@
 .calendarClock {
     width: 60%;
     text-align: left;
-    
+}
+.deadlineSelection {
+    display: inline;
+}
+
+.completed {
+    text-decoration: line-through;  
 }
     

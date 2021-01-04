@@ -1,6 +1,5 @@
 import { Ajax } from '../ajax/ajax.js' ;
 
-
 class Todo {
     constructor(params) {
         this.selector = params.selector;
@@ -8,8 +7,8 @@ class Todo {
         this.taskList = [];
         this.lastCreatedID = 0;
         this.DeadlineDOM = null;
-
     }
+
     init() {
         if (!this.isValidSelector()) {
             return false;
@@ -54,18 +53,24 @@ class Todo {
     }
 
     generateItem(task) {
-        let value = this.deadline();
-        console.log(this.lastCreatedID);
-        return `
-        <div class="item">
+        let txt =  `<div class="item">
             <p>${task.text}</p>
-            <span>
-            <p class="deadlineSelection">${task.value[timeLeftDays]} days </p>
-            <p class="deadlineSelection">${task.value[timeLeftHours]} hours </p>
-            <p class="deadlineSelection">${task.value[timeLeftMinutes]} minutes </p>
-            <p class="deadlineSelection">${task.value[timeLeftSeconds]} seconds left</p>
-            </span>
-            <div class="actions">
+            <input type="hidden" id="id" value="${task.id}">`;
+
+            if( task.deadline.timeLeftDays >! 999999999999999 ){
+                txt +=
+            `<span>
+                <p class="deadlineSelection">${task.deadline.timeLeftDays} days </p>
+                <p class="deadlineSelection">${task.deadline.timeLeftHours} hours </p>
+                <p class="deadlineSelection">${task.deadline.timeLeftMinutes} minutes </p>
+                <p class="deadlineSelection">${task.deadline.timeLeftSeconds} seconds left. </p>
+            </span>`;
+
+            }else{
+                txt +=` <p class="deadlineSelection"> This task has no deadline. </p>`;
+            }
+            txt+=
+            `<div class="actions">
                 <div class="btn delete small">Delete note</div>
                 <span>
                     <label class="check" for="check"> Complete task </label>
@@ -78,7 +83,9 @@ class Todo {
                 </div>
                 </div>
         </div>
-    `; //days ${task.timeLeftHours} hours ${task.timeLeftMinutes} minutes ${task.timeLeftSeconds} seconds
+        `; 
+
+            return txt;
     }
 
     // Read
@@ -99,6 +106,13 @@ class Todo {
         
     }
 
+    // Complete
+    // completeTask (taskIndex) {
+    //     sessionStorage(this.taskList[taskIndex].id)
+        // this.taskList = this.taskList.filter((item, index) => index !== taskIndex);
+        // this.renderList();
+    // }
+
     addEvents() {
         const items = this.DOM.querySelectorAll('.item');
         
@@ -108,6 +122,7 @@ class Todo {
             const deleteBtn = item.querySelector('.btn.delete.small');
             const confirmDelete = deletePopUp.querySelector('.btn.delete.confirm');
             const cancelDelete = deletePopUp.querySelector('.btn.cancel.revoke');
+            const completeBox = item.querySelector('input.check');
                         
             confirmDelete.addEventListener ('click', () => {
                 this.deleteTask(i);
@@ -122,12 +137,15 @@ class Todo {
                 deletePopUp.classList.remove('show');
             })
             
-            // const completeBox = item.querySelector('.check');
-            // completeBox.addeventListener('click', () => {
-            //     this.completeTask(i);
-            // })
+            completeBox.addEventListener('click', () => {
+                // this.completeTask(i);
+                item.classList.add("completed");
+                item.querySelector('#id').value 
+                console.log(item.querySelector('#id').value);
+            })
         }
     }
+
 
     getInfoFromSessionStorage () {
         const keys = Object.keys(sessionStorage).sort();
@@ -161,16 +179,14 @@ class Todo {
         hour = hour < 10 ? '0' + hour : hour;
         minute = minute < 10 ? '0' + minute : minute;
         today = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
+        
 
         let setDeadline = document.querySelector('#setDeadline');
         setDeadline.setAttributeNS('setDeadline', 'min', today);
-
         
         let setDeadlineMs = Date.parse(setDeadline.value);
-        if (setDeadline.value === '') {
-            console.log('No deadline supplied for this task.');
-        }
 
+        
         let todayMs = Date.parse(today);
         let timeLeftS = (setDeadlineMs - todayMs) / 1000; 
         
@@ -185,23 +201,14 @@ class Todo {
         let timeLeftSeconds = Math.floor(timeLeftS - timeLeftMinutes * 60);
         
         
-        // timeLeftDays = timeLeftDays < 10 ? '0' + timeLeftDays : timeLeftDays;
-        // timeLeftHours = timeLeftHours < 10 ? '0' + timeLeftHours : timeLeftHours;
-        // timeLeftMinutes = timeLeftMinutes < 10 ? '0' + timeLeftMinutes : timeLeftMinutes;
-        // timeLeftSeconds = timeLeftSeconds < 10 ? '0' + timeLeftSeconds : timeLeftSeconds;
-
-        
-        // return setDeadline.value; -> original static one
-
         return {
         timeLeftDays: timeLeftDays < 10 ? '0' + timeLeftDays : timeLeftDays,
         timeLeftHours: timeLeftHours < 10 ? '0' + timeLeftHours : timeLeftHours,
         timeLeftMinutes: timeLeftMinutes < 10 ? '0' + timeLeftMinutes : timeLeftMinutes,
         timeLeftSeconds: timeLeftSeconds < 10 ? '0' + timeLeftSeconds : timeLeftSeconds,
         }
-
     }
-
+    
     renderDeadline (selector) {
         if (typeof selector !== 'string') {
             console.error ('Error: selector must be string type.');
@@ -211,13 +218,13 @@ class Todo {
             console.error ('Error: selector may not be an empty string');
             return false;
         }
-        const DeadlineDOM = document.querySelector(selector); // cia reikes nukreipti i <p> !!!!!!
+        const DeadlineDOM = document.querySelector(selector);
         if (!DeadlineDOM) {
             console.error ('Error: the place for countdown timer HTML generation was not found.');
             return false;
         }
     
-        const remainingTime = Todo.deadline(); // path reik patikrint
+        const remainingTime = Todo.deadline(); // path reik pratestuot
         console.log(remainingTime);
 
         const HTMLCounter = 
@@ -251,14 +258,7 @@ class Todo {
         }, 1000);
         
         return true;
-        
-        
     }
-
-        
-        
-    
-   
 }
 
 export { Todo };

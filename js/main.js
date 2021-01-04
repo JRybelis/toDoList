@@ -1,6 +1,4 @@
 import {Todo} from './components/toDo/toDo.js';
-// import { renderDeadline } from './components/dateTime/dateTime.js';
-
 
 const addNewTask = document.querySelector('.add-new');
 const lightbox = document.querySelector('.lightbox');
@@ -10,8 +8,7 @@ const textarea = formAdd.querySelector('textarea');
 const buttonCancel = formAdd.querySelector('button.cancel')
 const buttonAdd = formAdd.querySelector('button.add');
 
-     
-
+ 
 // init objects
 const todo = new Todo({
     selector: '.list'
@@ -20,10 +17,12 @@ todo.init();
 
 // add events
 addNewTask.addEventListener('click', () => {
+    let setDeadline = document.querySelector('#setDeadline');
+    setDeadline.value = '';
+
     lightbox.dataset.form = 'add';
     lightbox.classList.add('show');
 })
-
 
 addEventListener('keyup', ({ key }) => {
     if (key === 'Escape') {
@@ -39,15 +38,13 @@ buttonCancel.addEventListener('click', e => {
 
 buttonAdd.addEventListener('click', e => {
     e.preventDefault();
-    const setDeadline = document.querySelector('#setDeadline');
+    let setDeadline = document.querySelector('#setDeadline');
     if (textarea.textLength === 0) {
         alert ('The note cannot be created empty.');
         return false;
-    } 
-    
+    }
     todo.addTask(textarea.value);
-    textarea.value = '';
-    setDeadline.value = '';
+    textarea.value = ''; 
     lightbox.classList.remove('show');
 })
 

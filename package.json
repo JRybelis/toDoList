@@ -1,0 +1,24 @@
+{
+  "name": "18-toDoList",
+  "version": "1.0.0",
+  "description": "![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server --port=8080",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JRybelis/toDoList.git"
+  },
+  "keywords": [],
+  "author": "Jokubas Rybelis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JRybelis/toDoList/issues"
+  },
+  "homepage": "https://github.com/JRybelis/toDoList#readme",
+  "dependencies": {
+    "live-server": "^1.2.1"
+  }
+}
